@@ -1,7 +1,6 @@
 #include "shell.h"
 extern char **environ;
-/**
- * print_env - prints environment
+/** print_env - prints environment
  * @args: arguments
  *
  * Return: nothing
@@ -30,9 +29,7 @@ void execve_command(char *path, char *const argv[])
 {
 	if (execve(path, argv, environ) == -1)
 	{
-	perror("could not execute");
-	if (path)
-	free(path);
+	perror("./hsh");
 	exit(EXIT_FAILURE);
 	}
 }
@@ -46,34 +43,22 @@ int _execute(char *argv[])
 {
 	int status;
 	pid_t child_pid;
-	char *path = NULL;
-
-	if (path == NULL)
-	{
-	perror(argv[0]);
-	return(EXIT_FAILURE);
-	}
 
 	child_pid = fork();/* fork to create a new process*/
-	if (child_pid < 0)/*error*/
+	if (child_pid == -1)/*error*/
 	{
 	perror("fork failed");
-	free(path);
+
 	exit(EXIT_FAILURE);
 	}
 
 	if (child_pid == 0)/*on success call the exec func*/
 	{
-	execve_command(path, argv);
+	execve_command(argv[0], argv);
 	}
 	else
 	{
-	waitpid(child, &status, 0);/*wait for the child to terminate*/
-
-	/*if (WIFEXITED(status);*/
-	
-	if (path)
-	free (path);
+	waitpid(child_pid, &status, 0);/*wait for the child to terminate*/
 	}
 	return (0);
 }
