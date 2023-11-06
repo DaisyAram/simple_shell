@@ -13,16 +13,25 @@ int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), 
 	ssize_t nchars;
 	char **arr;
 	int j = 0;
+	bool interactive = isatty(STDIN_FILENO);
 
 	while (1)
 	{
-	write(STDOUT_FILENO, "~$ ", 3);/*display a prompt*/
+	if (interactive)
+	{
+	if(isatty(STDOUT_FILENO))
+	{
+	write(STDOUT_FILENO, "~$ ", 3);/*display a prompt in interactive mode*/
 	fflush(stdout);
-
+	}
+	}
 	nchars = getline(&command, &size, stdin);/*read user input*/
 	if(nchars == -1)/*end of a file*/
 	{
+	if (interactive)
+	{
 	perror("getline");
+	}
 	break;
 	}
 	else
@@ -31,6 +40,7 @@ int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), 
 	command[nchars - 1] ='\0';
 	if (command[0] == '\n' || nchars == 1 ||check_delim(command) == 1)/*func call*/
 	{
+	/*non interactive mode*/
 	continue;
 	}
 	}
