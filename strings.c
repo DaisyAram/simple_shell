@@ -20,6 +20,36 @@ int _strcmp(char *str1, char *str2)
 	return (0);
 }
 /**
+ * _strdup - duplicates a string
+ * @str: string to be duplicated
+ *
+ * Return: pointer to dup string
+ */
+char *_strdup(const char *str)
+{
+	unsigned int len = 0;
+	char *dup = NULL;
+
+	if(str == NULL)
+	{
+	return (NULL);
+	}
+	for(len = 0; str[len] != '\0'; len ++);/*calulates length of string*/
+	
+	dup = (char *)malloc(len +1);/*memory allocation*/
+	if (dup == NULL)
+	{
+	return (NULL);
+	}
+	for (unsigned int i = 0; i < len; i++)
+	{
+	dup[i] = str[i];/*copy chars from original string to dup string*/
+	}
+	dup[len] = '\0';/*null terminator of dup string*/
+	return (dup);
+}
+
+/**
  * _strcat - concatenates two strings
  * @dest: destination string
  * @src: source string
