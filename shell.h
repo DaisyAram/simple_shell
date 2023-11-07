@@ -26,5 +26,10 @@ int check_delim(const char *command);
 /*handle_error*/
 void handle_error(char* command);
 
+/* handle path*/
+char *handle_path(char *command);
+char *find_env(char *PATH);
 
+/*handle command line arguments*/
+int command_args(int argc, char *argv[]);
 #endif 

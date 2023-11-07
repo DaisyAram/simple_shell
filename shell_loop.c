@@ -44,19 +44,20 @@ int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), 
 	continue;
 	}
 	}
-	tok = strtok(command, "\t\n");/*parsing strings into single args*/
+	tok = strtok(command, " \t\n");/*parsing strings into single args*/
 	j = 0;
 	arr = malloc(sizeof(char *) * 1024);
 	while (tok)
 	{
 	arr[j] = tok;
-	tok = strtok(NULL, "\t\n");
+	tok = strtok(NULL, " \t\n");
 	j++;
 	}
 
 	arr[j] = NULL;
 	
 	_execute(arr);/*calling the func tp handle fork and execve*/
+
 	free(arr);
 	}
 	free(command);

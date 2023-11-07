@@ -11,10 +11,10 @@ int check_delim(const char *command)
 
 	for(j = 0; command[j] != '\0'; j++)/* not null char*/
 	{
-	if(command[j] != '\t' && command[j] != ' ')/*not a space or tab*/
+	if(command[j] == ' ' || command[j] == '\t')/*space or tab*/
 	{
-	return (0);/* no space or tab is found*/
-	}
-	}
 	return (1);/*space or tab is found*/
+	}
+	}
+	return (0);/*space or tab not found*/
 }

@@ -29,7 +29,7 @@ void execve_command(char *path, char *const argv[])
 {
 	if (execve(path, argv, environ) == -1)
 	{
-	perror("./hsh");
+	perror("execve");
 	exit(EXIT_FAILURE);
 	}
 }
@@ -37,28 +37,40 @@ void execve_command(char *path, char *const argv[])
  * _execute - executes command
  * @argv: argument vector
  *
- * Return: on success 0
+ * Return: on success 0 otherwise -1
  */
 int _execute(char *argv[])
 {
 	int status;
+	char *path = NULL;
 	pid_t child_pid;
 
+	if (access(argv[0], F_OK) == -1)
+	{
+	perror("Access error");
+	return ( -1);
+	}
+	path = handle_path(argv[0]);
 	child_pid = fork();/* fork to create a new process*/
 	if (child_pid == -1)/*error*/
 	{
-	perror("fork failed");
-
-	exit(EXIT_FAILURE);
+	perror("fork");
+	return ( -1);
 	}
 
 	if (child_pid == 0)/*on success call the exec func*/
 	{
 	execve_command(argv[0], argv);
+
 	}
 	else
 	{
-	waitpid(child_pid, &status, 0);/*wait for the child to terminate*/
+	if (waitpid(child_pid, &status, 0) == -1)/*wait for the child to terminate*/
+	{
+	perror("waitpid");
+	return ( -1);
+	}
+	return (WEXITSTATUS(status));/*return exit of the child*/
 	}
 	return (0);
 }
