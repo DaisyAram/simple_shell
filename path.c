@@ -25,7 +25,6 @@ char *find_env(char *PATH)
 /**
  * handle_path - handles path
  * @command: command
- *
  * Return: NULL or path
  */
 char *handle_path(char *command)

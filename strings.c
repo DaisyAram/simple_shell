@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * strcpy - copies two strings
+ * _strcpy - copies two strings
  * @dest: input
  * @src: input
  *
@@ -69,9 +69,10 @@ char *_strdup(const char *str)
 	return (NULL);
 	}
 
-	for (len = 0; str[len] != '\0'; len++);/*calulates length of string*/
+	for (len = 0; str[len] != '\0'; len++)/*calulates length of string*/
 
 	dup = (char *)malloc(len + 1);/*memory allocation*/
+
 	if (dup == NULL)
 	{
 	return (NULL);
@@ -95,7 +96,8 @@ char *_strcat(char *dest, const char *src)
 {
 	int a, b;
 
-	for (a = 0; dest[a] != '\0'; a++);/*find null terminator in dest*/
+	for (a = 0; dest[a] != '\0'; a++)
+	/*find null terminator in dest*/
 
 	for (b = 0; src[b] != '\0'; b++)/* apend src to dest*/
 	{

@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * main - main function of a shell
  * @argv: argument vector
@@ -7,7 +6,7 @@
  *
  * Return: 0
  */
-int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), __attribute((unused)) char **envp)
+int main(void)
 {
 	char *command = NULL, *tok;
 	size_t size = 0;
@@ -45,7 +44,6 @@ int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), 
 	j++;
 	}
 	arr[j] = NULL;
-
 	execute_command(arr);/*calling the func tp handle fork and execve*/
 	free(arr);
 	tok = strtok(NULL, "\t\n");

@@ -1,7 +1,7 @@
 #include "shell.h"
 /**
  * builtin_env - handles builtin env that prints current env
- * arg: arguments unused
+ * @arg: arguments unused
  *
  * Return: nothing
  */
@@ -40,9 +40,7 @@ int handle_builtin(char *command, char **arg)
 	{
 	builtin_exit(arg);
 	return (1);
-
 	}
-
 	if (_strcmp(command, "env") == 0)
 	{
 	builtin_env(arg);
