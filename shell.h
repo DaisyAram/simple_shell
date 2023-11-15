@@ -19,9 +19,8 @@ void _puts(const char *str);
 int _putchar(char c);
 
 /*execute_command*/
-void print_env(char **args __attribute__((unused)));
 void execve_command(char *path, char *const argv[]);
-int _execute(char *args[]);
+int execute_command(char *args[]);
 
 /*delim_command*/
 int check_delim(const char *command);
@@ -37,7 +36,10 @@ char *find_env(char *PATH);
 int command_args(int argc, char *argv[]);
 
 /**handle builtin commands*/
-int handle_builtin(char *command);
+int handle_builtin(char *command, char **arg);
+void builtin_exit(char **arg);
+void builtin_env(char **arg __attribute__((unused)));
+
 
 /*strings.c*/
 int _strcmp(char *str1, char *str2);

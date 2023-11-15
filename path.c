@@ -15,7 +15,7 @@ char *find_env(char *PATH)
 	if (strncmp(PATH, *var, len) == 0 && (*var)[len] == '=')
 	/*checks if current env var starts with same chars as PATH*/
 	{
-	return (*var +len +1);/*match found*/
+	return (*var + len + 1);/*match found*/
 	}
 	var++;
 	}
@@ -30,49 +30,47 @@ char *find_env(char *PATH)
  */
 char *handle_path(char *command)
 {
-	char *dir, *tok;
-	char *full_path;
-	char *path = getenv("PATH");
-	
+	int dlen, clen;
+	char *copy, *tok, *path, *full_path;
 
-	if (command[0] == '/' || command[0] == '.')
+	if (command[0] == '.' || command[0] == '/')/*if command has / or .*/
 	{
-	if(access(command, F_OK) == 0 ? _strdup(command) : NULL);
+	if (access(command, F_OK) == 0)
+	return (_strdup(command));
+	else
+	return (NULL);/*if file exists*/
 	}
-	path 
-	if (path == NULL)/*path environment variable not found*/
+	path = find_env("PATH");
+	if (path == NULL || command == NULL)/*path environment variable not found*/
 	{
 	return (NULL);
 	}
-	dir = strdup(path);
-	if (dir == NULL)
+	else
 	{
-	perror("strdup failed");
-	return (NULL);
-	}
-	tok = strtok(dir, ":");
-	
-	while(tok != NULL)
+	copy = _strdup(path);
+	clen = _strlen(command);
+	tok = strtok(copy, ":");
+	while (tok != NULL)
 	{
-	full_path = (char *)malloc(strlen(tok) + strlen(command) + 2);/*allocate mem*/
-	if (full_path == NULL)
+	dlen = _strlen(tok);
+	full_path = malloc(sizeof(char) * (dlen + clen + 2));/*allocate mem*/
+	_strcpy(full_path, tok);/*copy the full path*/
+	_strcat(full_path, "/");
+	_strcat(full_path, command);
+	_strcat(full_path, "\0");
+	if (access(full_path, F_OK) == 0)/*file exists*/
 	{
-	perror("malloc failed");
-	free (dir);
-	return (NULL);
-	}
-	strcpy(full_path, tok);
-	strcat(full_path, "/");
-	strcat(full_path, command);
-
-	if (access(full_path, X_OK) == 0)/*file exists*/
-	{
-	free (dir);
+	free(copy);
 	return (full_path);
 	}
+	else
+	{
 	free(full_path);/*free mem of current path*/
 	tok = strtok(NULL, ":");
 	}
-	free (dir);
+	}
+	free(copy);
+	return (NULL);
+	}
 	return (NULL);
 }

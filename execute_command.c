@@ -1,29 +1,8 @@
 #include "shell.h"
-extern char **environ;
-/** 
- * builtin_env - prints environment
- * @envp: environment
- *
- * Return: nothing
- */
-void builtin_env(char **envp)
-{
-	char **env = envp;
-
-	while (*env != NULL)
-	{
-	_puts(*env);
-	_putchar('\n');
-	env++;
-	}
-}
-
-
 /**
- * execve_command _ execve function that executes command with given path
+ * execve_command - execve function that executes command with given path
  * @argv: argument vector
  * @path: command path
- * @env: environment
  *
  * Return: nothing
  */
@@ -38,41 +17,49 @@ void execve_command(char *path, char *const argv[])
 	}
 }
 /**
- * _execute - executes command
+ * execute_command - executes command
  * @argv: argument vector
  *
  * Return: on success 0 otherwise -1
  */
-int _execute(char *argv[])
+int execute_command(char *argv[])
 {
 	int status;
 	pid_t child_pid;
-	int built_in = handle_builtin(argv[0], argv)
+	int built_in = handle_builtin(argv[0], argv);
+	char *path = NULL;
 
-	if (access(argv[0], F_OK) == -1)
+	path = handle_path(argv[0]);
+	if (!built_in && path == NULL)
 	{
-	error_handler(argv[0]);
-	return ( -1);
+	perror(argv[0]);
+	return (EXIT_FAILURE);
 	}
-	handle_path(argv[0]);
+	if (built_in)
+	{
+	if (path)
+	free(path);
+	return (1);
+	}
 	child_pid = fork();/* fork to create a new process*/
 	if (child_pid == -1)/*error*/
 	{
 	perror("fork");
-	return ( -1);
+	if (path)
+	free(path);
+	return (-1);
 	}
 
 	if (child_pid == 0)/*on success call the exec func*/
 	{
-	execve_command(argv[0], argv);
-
+	execve_command(path, argv);
 	}
 	else
 	{
-	if (waitpid(child_pid, &status, 0) == -1)/*wait for the child to terminate*/
+	if (waitpid(child_pid, &status, 0) == -1)/*wait for child to terminate*/
 	{
 	perror("waitpid");
-	return ( -1);
+	return (-1);
 	}
 	return (WEXITSTATUS(status));/*return exit of the child*/
 	}
