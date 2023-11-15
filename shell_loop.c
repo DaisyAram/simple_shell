@@ -14,12 +14,13 @@ int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), 
 	char **arr;
 	int j = 0;
 	bool interactive = isatty(STDIN_FILENO);
-
+	char *cmd;
+	char **args;
 	while (1)
 	{
 	if (interactive)
 	{
-	if(isatty(STDOUT_FILENO))
+	if(isatty(STDOUT_FILENO) == 1)
 	{
 	write(STDOUT_FILENO, "~$ ", 3);/*display a prompt in interactive mode*/
 	fflush(stdout);
@@ -32,6 +33,7 @@ int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), 
 	{
 	perror("getline");
 	}
+/*	free(command);*/
 	break;
 	}
 	else
@@ -53,9 +55,10 @@ int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), 
 	tok = strtok(NULL, " \t\n");
 	j++;
 	}
-
-	arr[j] = NULL;
 	
+	arr[j] = NULL;
+	cmd = arr[0];
+	args = arr;
 	_execute(arr);/*calling the func tp handle fork and execve*/
 
 	free(arr);
@@ -63,4 +66,3 @@ int main(__attribute__((unused)) int argc, char **argv __attribute__((unused)), 
 	free(command);
 	return (0);
 }
-	

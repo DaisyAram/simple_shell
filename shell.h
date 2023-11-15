@@ -8,8 +8,11 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <stdbool.h>
+#include <sys/stat.h>
 
 #define MAX_ARGS 256
+
+extern char **environ;
 
 /*myprint_func*/
 void _puts(const char *str);
@@ -24,7 +27,7 @@ int _execute(char *args[]);
 int check_delim(const char *command);
 
 /*handle_error*/
-void handle_error(char* command);
+void error_handler(char* command);
 
 /* handle path*/
 char *handle_path(char *command);
@@ -32,4 +35,14 @@ char *find_env(char *PATH);
 
 /*handle command line arguments*/
 int command_args(int argc, char *argv[]);
+
+/**handle builtin commands*/
+int handle_builtin(char *command);
+
+/*strings.c*/
+int _strcmp(char *str1, char *str2);
+char *_strdup(const char *str);
+char *_strcat(char *dest, const char *src);
+char *_strcpy(char *dest, const char *src);
+int _strlen(char *str);
 #endif 

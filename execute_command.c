@@ -1,21 +1,23 @@
 #include "shell.h"
 extern char **environ;
-/** print_env - prints environment
- * @args: arguments
+/** 
+ * builtin_env - prints environment
+ * @envp: environment
  *
  * Return: nothing
  */
-void print_env(char **args __attribute__((unused)))
+void builtin_env(char **envp)
 {
-	int j = 0;
+	char **env = envp;
 
-	while (environ[j] != NULL)
+	while (*env != NULL)
 	{
-	_puts(environ[j]);
+	_puts(*env);
 	_putchar('\n');
-	j++;
+	env++;
 	}
 }
+
 
 /**
  * execve_command _ execve function that executes command with given path
@@ -29,7 +31,9 @@ void execve_command(char *path, char *const argv[])
 {
 	if (execve(path, argv, environ) == -1)
 	{
-	perror("execve");
+	error_handler(argv[0]);
+	if (path)
+	free(path);
 	exit(EXIT_FAILURE);
 	}
 }
@@ -42,15 +46,15 @@ void execve_command(char *path, char *const argv[])
 int _execute(char *argv[])
 {
 	int status;
-	char *path = NULL;
 	pid_t child_pid;
+	int built_in = handle_builtin(argv[0], argv)
 
 	if (access(argv[0], F_OK) == -1)
 	{
-	perror("Access error");
+	error_handler(argv[0]);
 	return ( -1);
 	}
-	path = handle_path(argv[0]);
+	handle_path(argv[0]);
 	child_pid = fork();/* fork to create a new process*/
 	if (child_pid == -1)/*error*/
 	{

@@ -9,9 +9,9 @@ int check_delim(const char *command)
 {
 	size_t j;
 
-	for(j = 0; command[j] != '\0'; j++)/* not null char*/
+	for (j = 0; command[j] != '\0'; j++)/* not null char*/
 	{
-	if(command[j] == ' ' || command[j] == '\t')/*space or tab*/
+	if (command[j] == ' ' || command[j] == '\t')/*space or tab*/
 	{
 	return (1);/*space or tab is found*/
 	}

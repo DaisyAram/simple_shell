@@ -32,8 +32,14 @@ char *handle_path(char *command)
 {
 	char *dir, *tok;
 	char *full_path;
-	char *path = find_env(PATH);
+	char *path = getenv("PATH");
 	
+
+	if (command[0] == '/' || command[0] == '.')
+	{
+	if(access(command, F_OK) == 0 ? _strdup(command) : NULL);
+	}
+	path 
 	if (path == NULL)/*path environment variable not found*/
 	{
 	return (NULL);
@@ -46,7 +52,7 @@ char *handle_path(char *command)
 	}
 	tok = strtok(dir, ":");
 	
-	while(dir != NULL)
+	while(tok != NULL)
 	{
 	full_path = (char *)malloc(strlen(tok) + strlen(command) + 2);/*allocate mem*/
 	if (full_path == NULL)
@@ -55,18 +61,17 @@ char *handle_path(char *command)
 	free (dir);
 	return (NULL);
 	}
-	_strcpy(full_path, dir);
-	_strcat(full_path, command);
-	_strcat(full_path, "/");
-
+	strcpy(full_path, tok);
+	strcat(full_path, "/");
+	strcat(full_path, command);
 
 	if (access(full_path, X_OK) == 0)/*file exists*/
 	{
-		free (dir);
-		return (full_path);
+	free (dir);
+	return (full_path);
 	}
-		free(full_path);/*free mem of current path*/
-		tok = strtok(NULL, ":");
+	free(full_path);/*free mem of current path*/
+	tok = strtok(NULL, ":");
 	}
 	free (dir);
 	return (NULL);

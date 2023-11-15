@@ -1,5 +1,39 @@
 #include "shell.h"
 /**
+ * strcpy - copies two strings
+ * @dest: input
+ * @src: input
+ *
+ * Return: dest
+ */
+char *_strcpy(char *dest, const char *src)
+{
+	int j = 0;
+
+	while ((dest[j] = src[j]) != '\0')
+	j++;
+	return (dest);
+}
+
+/**
+ * _strlen - returns string length
+ * @str: string
+ *
+ * Return: length
+ */
+int _strlen(char *str)
+{
+	int i = 0;
+
+	while (*str != '\0')
+	{
+	i++;
+	str++;
+	}
+	return (i);
+}
+
+/**
  * _strcmp - compares two strings
  * @str1: input value
  * @str2: input value
@@ -27,21 +61,22 @@ int _strcmp(char *str1, char *str2)
  */
 char *_strdup(const char *str)
 {
-	unsigned int len = 0;
+	unsigned int i, len = 0;
 	char *dup = NULL;
 
-	if(str == NULL)
+	if (str == NULL)
 	{
 	return (NULL);
 	}
-	for(len = 0; str[len] != '\0'; len ++);/*calulates length of string*/
-	
-	dup = (char *)malloc(len +1);/*memory allocation*/
+
+	for (len = 0; str[len] != '\0'; len++);/*calulates length of string*/
+
+	dup = (char *)malloc(len + 1);/*memory allocation*/
 	if (dup == NULL)
 	{
 	return (NULL);
 	}
-	for (unsigned int i = 0; i < len; i++)
+	for (i = 0; i < len; i++)
 	{
 	dup[i] = str[i];/*copy chars from original string to dup string*/
 	}
@@ -59,13 +94,13 @@ char *_strdup(const char *str)
 char *_strcat(char *dest, const char *src)
 {
 	int a, b;
-	
-	for (a = 0; dest[a] != '\0'; i++);/*find null terminator in dest*/
-	for (b = 0; src[b] != '\0'; j++)/* apend src to dest*/
+
+	for (a = 0; dest[a] != '\0'; a++);/*find null terminator in dest*/
+
+	for (b = 0; src[b] != '\0'; b++)/* apend src to dest*/
 	{
 	dest[a + b] = src[b];
 	}
 	dest[a + b] = '\0';
 	return (dest);/*add null terminator at the end of the string*/
 }
-
