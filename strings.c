@@ -96,13 +96,15 @@ char *_strdup(char *str)
 char *_strcat(char *dest, char *src)
 {
 	int a = 0, b = 0;
-	
-	for (; dest[a] != '\0'; a++);
-	/*find null terminator in dest*/
 
-	for (; src[b] != '\0'; a++, b++)/* apend src to dest*/
+	while (dest[a] != '\0')
+	a++;
+
+	while (src[b] != '\0')
 	{
-	dest[a] = src[b];
+	dest[a] = src[b];/* apend src to dest*/
+	a++;
+	b++;
 	}
 	dest[a] = '\0';
 	return (dest);/*add null terminator at the end of the string*/

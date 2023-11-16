@@ -13,11 +13,7 @@ void execve_command(char *path, char *const argv[])
 	error_handler(argv[0]);
 	}
 }
-	/*perror("execve");
-	if (path)
-	free(path);
-	exit(EXIT_FAILURE);
-	}*/
+
 
 /**
  * execute_command - executes command
