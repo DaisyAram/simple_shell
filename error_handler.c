@@ -7,7 +7,7 @@
  */
 void error_handler(char *command)
 {
-	fprintf(stderr, "Command not found: %s\n:", command);
-	perror("Error");
+	fprintf(stderr, "%s\n", command);
+	perror("");
 	exit(EXIT_FAILURE);
 }

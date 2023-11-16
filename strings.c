@@ -6,12 +6,16 @@
  *
  * Return: dest
  */
-char *_strcpy(char *dest, const char *src)
+char *_strcpy(char *dest, char *src)
 {
 	int j = 0;
 
-	while ((dest[j] = src[j]) != '\0')
+	while (src[j] != '\0')
+	{
+	dest[j] = src[j];
 	j++;
+	}
+	dest[j] = '\0';
 	return (dest);
 }
 
@@ -23,14 +27,11 @@ char *_strcpy(char *dest, const char *src)
  */
 int _strlen(char *str)
 {
-	int i = 0;
+	char *i = str;
 
-	while (*str != '\0')
-	{
+	while (*i)
 	i++;
-	str++;
-	}
-	return (i);
+	return (i - str);
 }
 
 /**
@@ -59,7 +60,7 @@ int _strcmp(char *str1, char *str2)
  *
  * Return: pointer to dup string
  */
-char *_strdup(const char *str)
+char *_strdup(char *str)
 {
 	unsigned int i, len = 0;
 	char *dup = NULL;
@@ -68,11 +69,10 @@ char *_strdup(const char *str)
 	{
 	return (NULL);
 	}
-
-	for (len = 0; str[len] != '\0'; len++)/*calulates length of string*/
-
+	len = _strlen(str);/*calculates length of string*/
+	if (len > 0)
+	{
 	dup = (char *)malloc(len + 1);/*memory allocation*/
-
 	if (dup == NULL)
 	{
 	return (NULL);
@@ -80,6 +80,7 @@ char *_strdup(const char *str)
 	for (i = 0; i < len; i++)
 	{
 	dup[i] = str[i];/*copy chars from original string to dup string*/
+	}
 	}
 	dup[len] = '\0';/*null terminator of dup string*/
 	return (dup);
@@ -92,17 +93,17 @@ char *_strdup(const char *str)
  *
  * Return: dest
  */
-char *_strcat(char *dest, const char *src)
+char *_strcat(char *dest, char *src)
 {
-	int a, b;
-
-	for (a = 0; dest[a] != '\0'; a++)
+	int a = 0, b = 0;
+	
+	for (; dest[a] != '\0'; a++);
 	/*find null terminator in dest*/
 
-	for (b = 0; src[b] != '\0'; b++)/* apend src to dest*/
+	for (; src[b] != '\0'; a++, b++)/* apend src to dest*/
 	{
-	dest[a + b] = src[b];
+	dest[a] = src[b];
 	}
-	dest[a + b] = '\0';
+	dest[a] = '\0';
 	return (dest);/*add null terminator at the end of the string*/
 }

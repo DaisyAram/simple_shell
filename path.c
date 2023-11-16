@@ -8,18 +8,20 @@
 char *find_env(char *PATH)
 {
 	char **var = __environ;/*pointer to global variable that holds env variables*/
+	int j = 0;
 	size_t len = _strlen(PATH);/*calculate length of the input variable*/
+	char *val;
 
-	while (*var)/*iterate through each env var stored in the environ arr*/
+	for (; var[j]; j++)
 	{
-	if (strncmp(PATH, *var, len) == 0 && (*var)[len] == '=')
+	if (strncmp(PATH, var[j], len) == 0 && (var[j][len] == '='))
 	/*checks if current env var starts with same chars as PATH*/
 	{
-	return (*var + len + 1);/*match found*/
+	val = var[j] + len + 1;/*match found*/
+	break;
 	}
-	var++;
 	}
-	return (NULL);/*not found*/
+	return (val);
 }
 
 /**
@@ -32,7 +34,7 @@ char *handle_path(char *command)
 	int dlen, clen;
 	char *copy, *tok, *path, *full_path;
 
-	if (command[0] == '.' || command[0] == '/')/*if command has / or .*/
+	if (command[0] == '/' || command[0] == '.')
 	{
 	if (access(command, F_OK) == 0)
 	return (_strdup(command));
@@ -40,16 +42,12 @@ char *handle_path(char *command)
 	return (NULL);/*if file exists*/
 	}
 	path = find_env("PATH");
-	if (path == NULL || command == NULL)/*path environment variable not found*/
-	{
-	return (NULL);
-	}
-	else
+	if (path)
 	{
 	copy = _strdup(path);
 	clen = _strlen(command);
 	tok = strtok(copy, ":");
-	while (tok != NULL)
+	while (tok)
 	{
 	dlen = _strlen(tok);
 	full_path = malloc(sizeof(char) * (dlen + clen + 2));/*allocate mem*/
@@ -73,3 +71,4 @@ char *handle_path(char *command)
 	}
 	return (NULL);
 }
+

@@ -1,8 +1,6 @@
 #include "shell.h"
 /**
  * main - main function of a shell
- * @argv: argument vector
- * @argc: argument count
  *
  * Return: 0
  */
@@ -12,7 +10,7 @@ int main(void)
 	size_t size = 0;
 	ssize_t nchars;
 	char **arr;
-	int j = 0;
+	int j;
 
 	while (1)
 	{
@@ -29,18 +27,16 @@ int main(void)
 	{
 	if (command[nchars - 1] == '\n')/*remove newline char*/
 	command[nchars - 1] = '\0';
-	if (command[0] == '\n' || nchars == 1 || check_delim(command) == 1)
-	/*func call*/
-	{
+	if (command[0] == '\n' || nchars == 1 || check_delim(command) == 1)/*funcall*/
 	continue;
 	}
-	}
-	tok = strtok(command, " ;\t\n");/*parsing strings into single args*/
+	arr = malloc(sizeof(char *) * 1024);
+	j = 0;
+	tok = strtok(command, " ");/*parsing strings into single args*/
 	while (tok)
 	{
-	arr = malloc(sizeof(char *) * 1024);
 	arr[j] = tok;
-	tok = strtok(NULL, " \t\n");
+	tok = strtok(NULL, " ");
 	j++;
 	}
 	arr[j] = NULL;

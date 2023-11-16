@@ -26,7 +26,7 @@ int execute_command(char *args[]);
 int check_delim(const char *command);
 
 /*handle_error*/
-void error_handler(char* command);
+void error_handler(char *command);
 
 /* handle path*/
 char *handle_path(char *command);
@@ -43,8 +43,8 @@ void builtin_env(char **arg __attribute__((unused)));
 
 /*strings.c*/
 int _strcmp(char *str1, char *str2);
-char *_strdup(const char *str);
-char *_strcat(char *dest, const char *src);
-char *_strcpy(char *dest, const char *src);
+char *_strdup(char *str);
+char *_strcat(char *dest, char *src);
+char *_strcpy(char *dest, char *src);
 int _strlen(char *str);
-#endif 
+#endif

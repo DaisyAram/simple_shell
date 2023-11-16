@@ -11,11 +11,14 @@ void execve_command(char *path, char *const argv[])
 	if (execve(path, argv, environ) == -1)
 	{
 	error_handler(argv[0]);
+	}
+}
+	/*perror("execve");
 	if (path)
 	free(path);
 	exit(EXIT_FAILURE);
-	}
-}
+	}*/
+
 /**
  * execute_command - executes command
  * @argv: argument vector
@@ -46,10 +49,9 @@ int execute_command(char *argv[])
 	{
 	perror("fork");
 	if (path)
-	free(path);
+	/*free(path);*/
 	return (-1);
 	}
-
 	if (child_pid == 0)/*on success call the exec func*/
 	{
 	execve_command(path, argv);
